@@ -4,7 +4,7 @@ import { SOCIALS } from "../constants/index.js";
 const Footer = () => {
     return (
         <footer className="p-4 gap-2 flex justify-center w-full items-center mt-auto ">
-            <p className="font-inter font-bold text-md">© 2023 Alex Jordan -</p>
+            <p className="font-inter  font-bold text-md">© 2023 <span className="orange_gradient">Alex Jordan</span> -</p>
             <div className="flex gap-2">
                 {
                     SOCIALS.map((social, index) => (
