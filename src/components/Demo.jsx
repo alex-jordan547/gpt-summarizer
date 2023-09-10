@@ -8,6 +8,7 @@ const Demo = () => {
     const [article, setArticle] = useState({
         url: "",
         summary: "",
+        lang: "fr"
     });
     const [allArticles, setAllArticles] = useState([]);
     const [getSummary, { error, isFetching }] = useLazyGetSummaryQuery();
@@ -16,7 +17,6 @@ const Demo = () => {
 
 
     const handleCopy = (copyUrl) => {
-
         setCopied(copyUrl);
         navigator.clipboard.writeText(copyUrl).then(() => {
             setTimeout(() => {
@@ -29,13 +29,13 @@ const Demo = () => {
         const { data } = await getSummary({articleUrl:article.url, lang});
 
         if(data?.summary){
-            const newArticle = {...article, summary: data.summary};
+            const newArticle = {...article, summary: data.summary, lang};
             setArticle(newArticle);
 
             // check if the article is already in the local storage
             const articlesFromLocalStorage = JSON.parse(localStorage.getItem("articles"));
             if(articlesFromLocalStorage){
-                const isArticleAlreadyInLocalStorage = articlesFromLocalStorage.find((article) => article.url === newArticle.url);
+                const isArticleAlreadyInLocalStorage = articlesFromLocalStorage.find((article) => article.url === newArticle.url && article.lang === newArticle.lang);
                 if(isArticleAlreadyInLocalStorage){
                     return;
                 }
@@ -53,7 +53,7 @@ const Demo = () => {
     },[]);
 
     return (
-        <section className="mt-16 w-full max-w-xl min-h-min">
+        <section className="mt-16 w-full  min-h-min">
             {/* Search zone */}
             <div className="flex justify-center items-center mb-4">
                 <div className="flex gap-5">
@@ -88,6 +88,7 @@ const Demo = () => {
                             <p className="flex-1 font-satoshi orange_gradient font-bold text-sm truncate">
                                 {article.url}
                             </p>
+                            {article.lang && <p className="font-inter orange_gradient font-bold text-sm capitalize">{article.lang}</p>}
 
                         </div>
                     ))}
